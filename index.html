@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ms">
 <head>
@@ -51,7 +50,7 @@
                 margin: 0 auto;
                 
                 /* Gambar Background Utama */
-                background-image: url('image/bg-wedding.jpg');
+                background-image: url('image/bg-wedding.png');
                 background-size: contain;         /* Pastikan gambar ikut format asal */
                 background-repeat: no-repeat;     /* Elak gambar berulang */
                 background-position: center top;  /* Kedudukan gambar */
@@ -531,6 +530,54 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+   
+        /* =========================================
+           11. Ucapan
+           ========================================= */
+        /* Container untuk butang pilihan */
+        .rsvp-btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Gaya Butang Pilihan */
+        .btn-menu-rsvp {
+            flex: 1; /* Sama lebar */
+            padding: 20px 10px;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            line-height: 1.4;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        /* Efek tekan */
+        .btn-menu-rsvp:active {
+            transform: scale(0.95);
+        }
+        
+        /* Warna Butang 1 (Utama - Emas/Coklat) */
+        .btn-menu-rsvp.main {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: 1px solid var(--primary-color);
+        }
+        
+        /* Warna Butang 2 (Sekunder - Putih) */
+        .btn-menu-rsvp.secondary {
+            background-color: #fff;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
     </style>
 </head>
 <body>
@@ -557,7 +604,7 @@
     <div class="container">
         
         <section class="fade-up">
-            <img src="https://cdn-icons-png.flaticon.com/512/2884/2884635.png" width="60" style="opacity: 0.6; margin-bottom: 20px;">
+            <img src="image/couple.png" width="90" style="opacity: 0.9; margin-bottom: 20px;">
             <div class="bismillah-rumi">Bismillahirrahmanirrahim</div>
             <p>Assalamualaikum Warahmatullahi Wabarakatuh</p>
             <p>Dengan izin Allah SWT, kami menjemput Dato'/Datin/Tuan/Puan ke majlis meraikan cinta:</p>
@@ -632,7 +679,7 @@
                         <option value="Hadir">Akan Hadir</option>
                         <option value="Tidak Hadir">Tidak Dapat Hadir</option>
                     </select>
-                    <textarea name="Ucapan" placeholder="Doa & Ucapan untuk Pengantin" rows="3"></textarea>
+                    <textarea name="Ucapan" placeholder="Ucapan untuk Pengantin" rows="3"></textarea>
                     
                     <button type="submit" class="submit" id="btnSubmitMain">Hantar RSVP</button>
                 </form>
@@ -641,8 +688,8 @@
         </section>
 
         <section class="fade-up" style="background-color: rgba(252, 248, 240, 0.7);" id="section-ucapan">
-            <h2>Doa & Ucapan</h2>
-            <p style="margin-bottom: 20px;">Titipan doa dan ucapan untuk pengantin</p>
+            <h2>Ucapan</h2>
+            <p style="margin-bottom: 20px;">Titipan Ucapan untuk Pengantin:</p>
             
             <div class="wish-container">
                 <div id="senaraiUcapan">
@@ -732,30 +779,23 @@
     <div id="modalRSVP" class="modal-overlay" onclick="closeModal('modalRSVP')">
         <div class="modal-card" onclick="event.stopPropagation()">
             <div class="close-bar" onclick="closeModal('modalRSVP')"></div>
-            <h3 class="modal-title">RSVP & UCAPAN</h3>
+            <h3 class="modal-title">MENU RSVP</h3>
             
-            <form id="rsvpForm" name="submit-to-google-sheet" style="text-align: left;">
-                <input type="text" name="Nama" placeholder="Nama Tetamu" required style="background: #f9f9f9;">
-                <input type="tel" name="Telefon" placeholder="Nombor Telefon" required style="background: #f9f9f9;">
-                <select name="Jumlah" required style="background: #f9f9f9;">
-                    <option value="">Jumlah Kehadiran</option>
-                    <option value="1">1 Orang</option>
-                    <option value="2">2 Orang</option>
-                    <option value="3">3 Orang</option>
-                    <option value="4">4 Orang</option>
-                </select>
-                <select name="Status" required style="background: #f9f9f9;">
-                    <option value="Hadir">Akan Hadir</option>
-                    <option value="Tidak Hadir">Tidak Dapat Hadir</option>
-                </select>
-                <textarea name="Ucapan" placeholder="Ucapan untuk Pengantin" rows="3" style="background: #f9f9f9;"></textarea>
-                
-                <button type="submit" class="submit" id="btnSubmit" style="width: 100%; margin-top: 10px; border-radius: 12px;">Hantar RSVP</button>
-            </form>
-            <p id="statusMessage" style="display:none; text-align: center; color: green; margin-top: 10px; font-weight: bold;"></p>
+            <p style="margin-bottom: 25px; color: #666; font-size: 0.9rem;">Sila buat pilihan anda:</p>
+    
+            <div class="rsvp-btn-container">
+                <button onclick="pilihMenu('rsvp-inline')" class="btn-menu-rsvp main">
+                    <i class="fas fa-envelope-open-text" style="font-size: 1.5rem; margin-bottom: 5px;"></i>
+                    <span>Isi Kehadiran<br>& Ucapan</span>
+                </button>
+    
+                <button onclick="pilihMenu('section-ucapan')" class="btn-menu-rsvp secondary">
+                    <i class="fas fa-comments" style="font-size: 1.5rem; margin-bottom: 5px;"></i>
+                    <span>Lihat Ucapan<br>Tetamu</span>
+                </button>
+            </div>
         </div>
     </div>
-
 
     <nav class="bottom-nav">
         <a href="javascript:void(0)" onclick="openModal('modalKalendar')" class="nav-item">
@@ -778,7 +818,7 @@
             <span>Lokasi</span>
         </a>
 
-        <a href="javascript:void(0)" onclick="pergiKeRSVP()" class="nav-item">
+        <a href="javascript:void(0)" onclick="openModal('modalRSVP')" class="nav-item">
             <i class="fas fa-envelope-open-text"></i>
             <span>RSVP</span>
         </a>
@@ -934,6 +974,17 @@
                             btn.innerHTML = originalBtnText;
                             btn.disabled = false;
                             
+                            // ============================================================
+                            // 1. TAMBAH KOD INI DI SINI (AUTO REFRESH UCAPAN)
+                            // ============================================================
+                            // Kita bagi masa 2 saat untuk Google Sheet simpan data, 
+                            // kemudian kita panggil semula fungsi loadWishes()
+                            setTimeout(() => { 
+                                console.log("Mengemaskini senarai ucapan...");
+                                loadWishes(); 
+                            }, 2000); 
+                            // ============================================================
+                    
                             if(formId === 'rsvpForm') {
                                 setTimeout(() => { closeModal('modalRSVP'); }, 2000);
                             }
@@ -1046,21 +1097,20 @@
         // ==========================================
         // 7. FUNGSI BUTANG RSVP (SKROL KE BORANG)
         // ==========================================
-        function pergiKeRSVP() {
-            // 1. Tutup semua modal/pop-up jika ada yang terbuka
-            document.querySelectorAll('.modal-overlay').forEach(el => {
-                el.classList.remove('active');
-                setTimeout(() => { el.style.display = 'none'; }, 300);
-            });
-
-            // 2. Skrol terus ke bahagian RSVP (Inline)
-            const rsvpSection = document.getElementById('rsvp-inline');
-            if (rsvpSection) {
-                rsvpSection.scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'center' // Fokuskan borang di tengah skrin
-                });
-            }
+        function pilihMenu(targetId) {
+            // 1. Tutup Modal dulu
+            closeModal('modalRSVP');
+        
+            // 2. Tunggu modal tutup (300ms), baru scroll ke tempat yang dituju
+            setTimeout(() => {
+                const elemen = document.getElementById(targetId);
+                if (elemen) {
+                    elemen.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' // Pastikan borang duduk tengah-tengah skrin
+                    });
+                }
+            }, 300);
         }
     </script>
 </body>
