@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ms">
 <head>
@@ -473,6 +474,63 @@
             .couple-names { font-size: 2rem; }
             #musicIcon { margin-left: 130px; } /* Adjust ikon muzik untuk skrin sempit */
         }
+   
+        /* =========================================
+           11. Ucapan
+           ========================================= */
+        .wish-container {
+            height: 300px; /* Tinggi kotak */
+            overflow-y: auto; /* Boleh scroll ke bawah */
+            text-align: left;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.3); /* Bingkai emas nipis */
+            scrollbar-width: thin; /* Untuk Firefox */
+            scrollbar-color: var(--accent-color) transparent;
+        }
+        
+        /* Scrollbar Chrome/Safari */
+        .wish-container::-webkit-scrollbar {
+            width: 5px;
+        }
+        .wish-container::-webkit-scrollbar-thumb {
+            background-color: var(--accent-color);
+            border-radius: 10px;
+        }
+        
+        /* KAD MESEJ INDIVIDU */
+        .wish-card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 3px solid var(--accent-color);
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .wisher-name {
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .wisher-message {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.4;
+            font-style: italic;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -554,7 +612,11 @@
         </section>
 
         <section class="fade-up" id="rsvp-inline">
-            <h2>Kehadiran (RSVP)</h2>
+            <h2 style="line-height: 1.2;">
+                Kehadiran (RSVP)<br>
+                &<br>
+                Ucapan
+            </h2>
             <div class="rsvp-card">
                 <form id="rsvpFormMain" name="google-sheet-main">
                     <input type="text" name="Nama" placeholder="Nama Tetamu" required>
@@ -564,13 +626,13 @@
                         <option value="1">1 Orang</option>
                         <option value="2">2 Orang</option>
                         <option value="3">3 Orang</option>
-                        <option value="4">4 Orang</option>
+                        <option value="4-10">4 - 10 Orang</option>
                     </select>
                     <select name="Status" required>
                         <option value="Hadir">Akan Hadir</option>
                         <option value="Tidak Hadir">Tidak Dapat Hadir</option>
                     </select>
-                    <textarea name="Ucapan" placeholder="Ucapan untuk Pengantin" rows="3"></textarea>
+                    <textarea name="Ucapan" placeholder="Doa & Ucapan untuk Pengantin" rows="3"></textarea>
                     
                     <button type="submit" class="submit" id="btnSubmitMain">Hantar RSVP</button>
                 </form>
@@ -578,15 +640,27 @@
             </div>
         </section>
 
-        <footer style="background-color: rgba(93, 64, 55, 0.8); color: #D4AF37; padding: 40px 20px 100px 20px; text-align: center;">
+        <section class="fade-up" style="background-color: rgba(252, 248, 240, 0.7);" id="section-ucapan">
+            <h2>Doa & Ucapan</h2>
+            <p style="margin-bottom: 20px;">Titipan doa dan ucapan untuk pengantin</p>
+            
+            <div class="wish-container">
+                <div id="senaraiUcapan">
+                    <p style="opacity: 0.6; font-style: italic;">Sedang memuatkan ucapan...</p>
+                </div>
+            </div>
+        </section>
+
+        <footer style="background-color: rgba(93,64,55,0.8); color:#D4AF37; padding: 15px 20px; text-align:center;">
             <p class="pantun" style="font-style: italic; opacity: 0.8;">
                 Batang serai berumpun-rumpun,<br>
                 Disulam sireh berdaun lebar;<br>
                 Andai ada silap dan ampun,<br>
                 Jari disusun maaf dipinta.
             </p>
-            <h3>#fahmiethaqirahtilljannah</h3>
-            <small>mie086</small>
+            <h3 style="font-family: 'Great Vibes', cursive; font-weight: normal; letter-spacing: 1px; font-size: 1.8rem; margin-top: 10px; color: #D4AF37;">
+                #fahmiethaqirahtilljannah
+            </h3>
         </footer>
     </div>
 
@@ -834,7 +908,7 @@
         // ==========================================
         // 4. GOOGLE SHEET RSVP SCRIPT (HYBRID)
         // ==========================================
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyfY3RROEvCji-SuzA2RSPFF5Lfv7nmnWk8aUAL-ujedKcjYAkBHh3aInjbIv-PW5Vt/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyJdA9pzbQGrDX2USj-b7vFbJveYd_r-8rdA6O7avMRfIqGbBuXh3QjTF0aNeQold7D/exec';
 
         function setupForm(formId, btnId, msgId) {
             const form = document.getElementById(formId);
@@ -852,7 +926,7 @@
                         .then(response => {
                             if (msg) {
                                 msg.style.display = 'block';
-                                msg.innerHTML = "Alhamdulillah! Kehadiran direkodkan.";
+                                msg.innerHTML = "Alhamdulillah & Terima Kasih! Kehadiran dan Ucapan anda direkodkan.";
                                 msg.style.color = "green";
                                 setTimeout(() => { msg.style.display = 'none'; }, 5000);
                             }
@@ -880,6 +954,60 @@
 
         setupForm('rsvpForm', 'btnSubmit', 'statusMessage');
         setupForm('rsvpFormMain', 'btnSubmitMain', 'msgMain');
+
+        // ==========================================
+        // FUNGSI TARIK UCAPAN DARI GOOGLE SHEET
+        // ==========================================
+        // Gantikan URL di bawah dengan URL Script App yang BARU awak dapat tadi
+        const scriptURL_READ = 'https://script.google.com/macros/s/AKfycbyJdA9pzbQGrDX2USj-b7vFbJveYd_r-8rdA6O7avMRfIqGbBuXh3QjTF0aNeQold7D/exec'; 
+        
+        function loadWishes() {
+            const container = document.getElementById('senaraiUcapan');
+            
+            fetch(scriptURL_READ)
+                .then(response => response.json())
+                .then(data => {
+                    // Debugging: Tengok apa error sebenar di Console jika masih gagal
+                    console.log("Data diterima:", data); 
+        
+                    if (data.status === 'success' && data.data.length > 0) {
+                        container.innerHTML = ''; // Kosongkan text 'loading'
+                        
+                        // Terbalikkan susunan supaya ucapan baru duduk atas
+                        data.data.reverse().forEach(row => {
+                            
+                            // --- PEMBAIKAN UTAMA DI SINI ---
+                            // Kita tukar semua jadi String dulu supaya tak error kalau ada nombor
+                            const namaTetamu = row.Nama ? row.Nama.toString() : "Tetamu";
+                            const ucapanTetamu = row.Ucapan ? row.Ucapan.toString() : "";
+        
+                            // Semak jika ucapan wujud dan bukan kosong
+                            if (ucapanTetamu.trim() !== "") {
+                                const card = document.createElement('div');
+                                card.className = 'wish-card';
+                                card.innerHTML = `
+                                    <span class="wisher-name">${namaTetamu}</span>
+                                    <span class="wisher-message">"${ucapanTetamu}"</span>
+                                `;
+                                container.appendChild(card);
+                            }
+                        });
+                    } else {
+                        container.innerHTML = '<p style="text-align:center;">Belum ada ucapan. Jadilah yang pertama!</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching wishes:', error);
+                    // Paparkan error sebenar di skrin untuk kita troubleshoot (jika perlu)
+                    container.innerHTML = `<p style="text-align:center; color:red;">Gagal memuatkan ucapan.<br><small>${error.message}</small></p>`;
+                });
+        }
+        
+        // Panggil fungsi ini bila page dah load
+        window.addEventListener('load', loadWishes);
+            
+                // Panggil fungsi ini bila page dah load
+                window.addEventListener('load', loadWishes);
 
         // ==========================================
         // 5. ANIMASI SCROLL
