@@ -392,12 +392,15 @@
             gap: 15px;
             justify-content: center;
             margin-top: 15px;
+            width: 100%;
         }
+
+        /* 1. DEFAULT: Butang Putih Pekat (Untuk Modal Pop-up) */
         .btn-app {
             flex: 1;
             padding: 12px;
-            background: white;
-            border: 1px solid #333;
+            background: white;       /* Putih Pekat */
+            border: 1px solid #333;  /* Bingkai Hitam */
             border-radius: 12px;
             color: #333;
             text-decoration: none;
@@ -407,6 +410,20 @@
             justify-content: center;
             gap: 10px;
             font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        /* 2. KHAS: Butang Transparent (HANYA untuk section Lokasi Inline) */
+        #lokasi-inline .btn-app {
+            background: rgba(255, 255, 255, 0.3) !important; /* Jadi lutsinar */
+            backdrop-filter: blur(5px); /* Efek kaca */
+            border: 1px solid #333;
+        }
+
+        /* Efek bila tekan */
+        .btn-app:active {
+            transform: scale(0.95);
+            background-color: #f0f0f0; /* Kelabu sikit bila tekan */
         }
     
         /* List Hubungi */
@@ -654,12 +671,15 @@
                 </div>
             </div>
 
-            <div style="display: flex; justify-content: center; gap: 10px;">
-                <a href="https://maps.app.goo.gl/WRLiMhuz1gVKJaw38" target="_blank" class="submit" style="text-decoration: none; background-color: #4285F4; color: white; display: flex; align-items: center; gap: 8px; padding: 12px 30px; border-radius: 50px;">
-                    <i class="fas fa-map-marker-alt"></i> Maps
+            <div class="btn-group-app">
+                <a href="https://maps.app.goo.gl/Cu99BwurLndb7U78A" target="_blank" class="btn-app">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Google_Maps_icon_%282020%29.svg" width="20" alt="Maps"> 
+                    Maps
                 </a>
-                <a href="https://waze.com/ul/hw..." target="_blank" class="submit" style="text-decoration: none; background-color: #33CCFF; color: white; display: flex; align-items: center; gap: 8px; padding: 12px 30px; border-radius: 50px;">
-                    <i class="fab fa-waze"></i> Waze
+                
+                <a href="https://www.waze.com/en/live-map/directions/masjid-padang-pak-amat-jalan-pasir-puteh-pasir-puteh?place=w.67108922.670892617.1652092" target="_blank" class="btn-app">
+                    <i class="fab fa-waze" style="font-size: 1.2rem; color: #33CCFF;"></i> 
+                    Waze
                 </a>
             </div>
         </section>
@@ -800,10 +820,10 @@
             </p>
 
             <div class="btn-group-app">
-                <a href="https://maps.app.goo.gl/WRLiMhuz1gVKJaw38" target="_blank" class="btn-app">
+                <a href="https://maps.app.goo.gl/Cu99BwurLndb7U78A" target="_blank" class="btn-app">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Google_Maps_icon_%282020%29.svg" width="20"> Maps
                 </a>
-                <a href="https://waze.com/ul/hw..." target="_blank" class="btn-app">
+                <a href="https://www.waze.com/en/live-map/directions/masjid-padang-pak-amat-jalan-pasir-puteh-pasir-puteh?place=w.67108922.670892617.1652092" target="_blank" class="btn-app">
                     <i class="fab fa-waze" style="font-size: 1.2rem;"></i> Waze
                 </a>
             </div>
@@ -1104,9 +1124,6 @@
         
         // Panggil fungsi ini bila page dah load
         window.addEventListener('load', loadWishes);
-            
-                // Panggil fungsi ini bila page dah load
-                window.addEventListener('load', loadWishes);
 
         // ==========================================
         // 5. ANIMASI SCROLL
