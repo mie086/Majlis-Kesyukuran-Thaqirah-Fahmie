@@ -607,55 +607,25 @@
             border-bottom: none;
         }
         
-        .wisher-message {
-            /* KEKAL: Font family, style & size asal */
-            font-family: 'Lato', sans-serif;
-            font-style: italic;
-            font-size: 1.1rem; 
-            
-            /* UBAH: Ikut Gambar (Hitam & Normal) */
-            color: #000000;      /* Hitam Pekat */
-            font-weight: 400;    /* Normal (Tak Bold) supaya nampak lembut macam dalam gambar */
-            
-            line-height: 1.4;
-            display: block;
-            
-            /* KEKAL: Bayang putih (PENTING untuk background bunga hitam putih) */
-            /* Tanpa ini, tulisan hitam akan hilang di atas daun gelap */
-            text-shadow: 
-                1px 1px 0 #fff, 
-                -1px -1px 0 #fff, 
-                1px -1px 0 #fff, 
-                -1px 1px 0 #fff,
-                0 0 10px rgba(255,255,255,0.8);
-        }
-    
-       .wisher-name {
-            /* KEKAL: Font family & size asal */
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            margin-top: 10px;
+        .wisher-name {
+            font-family: 'Cinzel', serif; /* Font nampak klasik sikit */
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-top: 15px; /* Nama duduk di bawah ucapan (ikut trend moden) atau atas pun boleh */
             display: block;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+        }
+        
+        .wisher-message {
+            font-family: 'Lato', sans-serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: #444;
             
-            /* WARNA: Menggunakan warna tema (Coklat Gelap) */
-            color: var(--primary-color); 
-    
-            /* KETEBALAN: Kekal Bold (700) supaya nampak tegas */
-            font-weight: 700;    
-            
-            /* KEKAL: Bayang putih/Stroke */
-            /* Ini sangat PENTING supaya warna coklat tidak tenggelam pada background hitam/putih */
-            text-shadow: 
-                2px 2px 0 #fff, 
-                -1px -1px 0 #fff, 
-                1px -1px 0 #fff, 
-                -1px 1px 0 #fff,
-                1px 1px 0 #fff;
-                
-            position: relative; 
-            z-index: 2;
+            /* Tambah 'bayang putih' pada tulisan supaya mudah baca jika background ada bunga */
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.8); 
         }
    
         /* =========================================
