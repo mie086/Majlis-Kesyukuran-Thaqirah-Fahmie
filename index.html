@@ -698,6 +698,10 @@
                 <form id="rsvpFormMain" name="google-sheet-main">
                     <input type="text" name="Nama" placeholder="Nama Tetamu" required>
                     <input type="tel" name="Telefon" placeholder="Nombor Telefon" required>
+                    <select name="Status" required>
+                        <option value="Hadir">Akan Hadir</option>
+                        <option value="Tidak Hadir">Tidak Dapat Hadir</option>
+                    </select>
                     <select name="Jumlah" required>
                         <option value="">Jumlah Kehadiran</option>
                         <option value="1">1 Orang</option>
@@ -705,11 +709,11 @@
                         <option value="3">3 Orang</option>
                         <option value="4-10">4 - 10 Orang</option>
                     </select>
-                    <select name="Status" required>
-                        <option value="Hadir">Akan Hadir</option>
-                        <option value="Tidak Hadir">Tidak Dapat Hadir</option>
-                    </select>
-                    <textarea name="Ucapan" placeholder="Ucapan untuk Pengantin" rows="3"></textarea>
+                    <textarea 
+                        name="Ucapan" 
+                        placeholder="Ucapan untuk Pengantin (Max 250 huruf)" 
+                        rows="3" 
+                        maxlength="250"></textarea>
                     
                     <button type="submit" class="submit" id="btnSubmitMain">Hantar RSVP</button>
                 </form>
@@ -1048,28 +1052,43 @@
             fetch(scriptURL_READ)
                 .then(response => response.json())
                 .then(data => {
-                    // Debugging: Tengok apa error sebenar di Console jika masih gagal
                     console.log("Data diterima:", data); 
         
                     if (data.status === 'success' && data.data.length > 0) {
                         container.innerHTML = ''; // Kosongkan text 'loading'
                         
-                        // Terbalikkan susunan supaya ucapan baru duduk atas
+                        // Terbalikkan susunan (ucapan baru di atas)
                         data.data.reverse().forEach(row => {
                             
-                            // --- PEMBAIKAN UTAMA DI SINI ---
-                            // Kita tukar semua jadi String dulu supaya tak error kalau ada nombor
+                            // 1. Tukar data kepada String untuk elak error
                             const namaTetamu = row.Nama ? row.Nama.toString() : "Tetamu";
                             const ucapanTetamu = row.Ucapan ? row.Ucapan.toString() : "";
         
-                            // Semak jika ucapan wujud dan bukan kosong
+                            // 2. Semak jika ucapan bukan kosong
                             if (ucapanTetamu.trim() !== "") {
+                                
+                                // --- INI BAHAGIAN PENTING (XSS PROTECTION) ---
+                                
+                                // A. Cipta kotak kad dulu (Parent)
                                 const card = document.createElement('div');
                                 card.className = 'wish-card';
-                                card.innerHTML = `
-                                    <span class="wisher-name">${namaTetamu}</span>
-                                    <span class="wisher-message">"${ucapanTetamu}"</span>
-                                `;
+        
+                                // B. Cipta elemen Nama secara berasingan
+                                const nameSpan = document.createElement('span');
+                                nameSpan.className = 'wisher-name';
+                                nameSpan.textContent = namaTetamu; // <--- Selamat! Dia baca sebagai teks shj
+        
+                                // C. Cipta elemen Mesej secara berasingan
+                                const msgSpan = document.createElement('span');
+                                msgSpan.className = 'wisher-message';
+                                // Kita tambah tanda petik "" secara manual di sini
+                                msgSpan.textContent = `"${ucapanTetamu}"`; // <--- Selamat! 
+        
+                                // D. Masukkan Nama & Mesej ke dalam Kad
+                                card.appendChild(nameSpan);
+                                card.appendChild(msgSpan);
+                                
+                                // E. Masukkan Kad ke dalam Container utama
                                 container.appendChild(card);
                             }
                         });
@@ -1079,8 +1098,7 @@
                 })
                 .catch(error => {
                     console.error('Error fetching wishes:', error);
-                    // Paparkan error sebenar di skrin untuk kita troubleshoot (jika perlu)
-                    container.innerHTML = `<p style="text-align:center; color:red;">Gagal memuatkan ucapan.<br><small>${error.message}</small></p>`;
+                    container.innerHTML = `<p style="text-align:center; color:red;">Gagal memuatkan ucapan.<br><small>Sila cuba sebentar lagi.</small></p>`;
                 });
         }
         
@@ -1142,6 +1160,54 @@
                 }
             }, 300);
         }
+
+        // ==========================================
+        // 8. LOGIK KEHADIRAN (HIDUP/MATI KOTAK JUMLAH)
+        // ==========================================
+        function aktifkanLogikKehadiran(formId) {
+            const borang = document.getElementById(formId);
+            
+            // Jika borang tak wujud, berhenti (elak error)
+            if (!borang) return; 
+        
+            const statusSelect = borang.querySelector('select[name="Status"]');
+            const jumlahSelect = borang.querySelector('select[name="Jumlah"]');
+        
+            // Pastikan kedua-dua kotak wujud baru jalan kerja
+            if (statusSelect && jumlahSelect) {
+                
+                statusSelect.addEventListener('change', function() {
+                    // Jika pilih 'Tidak Hadir'
+                    if (this.value === 'Tidak Hadir') {
+                        jumlahSelect.value = "";           // Kosongkan pilihan jumlah
+                        jumlahSelect.disabled = true;      // Kunci kotak (tak boleh tekan)
+                        jumlahSelect.required = false;     // Jadikan tak wajib isi
+                        
+                        // (Optional) Ubah warna supaya nampak 'mati'
+                        jumlahSelect.style.backgroundColor = "#e0e0e0"; 
+                        jumlahSelect.style.cursor = "not-allowed";
+                    } 
+                    // Jika pilih 'Akan Hadir' atau lain-lain
+                    else {
+                        jumlahSelect.disabled = false;     // Aktifkan semula
+                        jumlahSelect.required = true;      // Wajib isi semula
+                        
+                        // Kembalikan warna asal
+                        jumlahSelect.style.backgroundColor = "rgba(255, 255, 255, 0.4)";
+                        jumlahSelect.style.cursor = "default";
+                    }
+                });
+            }
+        }
+        
+        // Jalankan fungsi ini sebaik sahaja laman web siap loading
+        window.addEventListener('load', function() {
+            // Panggil untuk borang utama anda
+            aktifkanLogikKehadiran('rsvpFormMain');
+            
+            // Jika anda ada borang lain (contoh: dalam modal), tambah ID di sini:
+            // aktifkanLogikKehadiran('rsvpForm'); 
+        });
     </script>
 </body>
 </html>
