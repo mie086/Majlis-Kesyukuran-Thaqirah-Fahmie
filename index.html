@@ -568,57 +568,94 @@
            11. Ucapan
            ========================================= */
         .wish-container {
-            height: 300px; /* Tinggi kotak */
-            overflow-y: auto; /* Boleh scroll ke bawah */
-            text-align: left;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 10px;
-            padding: 15px;
-            border: 1px solid rgba(212, 175, 55, 0.3); /* Bingkai emas nipis */
-            scrollbar-width: thin; /* Untuk Firefox */
+            height: 400px; /* Kita tinggikan sikit supaya nampak luas */
+            overflow-y: auto; 
+            
+            /* PENTING: Kita buang latar belakang kotak besar */
+            background: transparent; 
+            border: none; /* Buang bingkai emas kotak besar */
+            padding: 10px;
+            
+            /* Scrollbar styles (Biar nampak halus) */
+            scrollbar-width: thin; 
             scrollbar-color: var(--accent-color) transparent;
         }
         
-        /* Scrollbar Chrome/Safari */
-        .wish-container::-webkit-scrollbar {
-            width: 5px;
-        }
-        .wish-container::-webkit-scrollbar-thumb {
-            background-color: var(--accent-color);
-            border-radius: 10px;
-        }
+        /* Scrollbar untuk Chrome/Safari */
+        .wish-container::-webkit-scrollbar { width: 4px; }
+        .wish-container::-webkit-scrollbar-thumb { background-color: var(--accent-color); border-radius: 10px; }
         
-        /* KAD MESEJ INDIVIDU */
+        /* KAD MESEJ (DITUKAR JADI TRANSPARENT) */
         .wish-card {
-            background: white;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            border-left: 3px solid var(--accent-color);
-            animation: fadeIn 0.5s ease-in;
+            /* Buang warna putih background & bayang */
+            background: transparent; 
+            box-shadow: none;
+            border-left: none; /* Buang garis tepi tebal */
+            
+            /* Tambah garis putus-putus halus di bawah sebagai pemisah */
+            border-bottom: 1px dashed rgba(62, 39, 35, 0.2); 
+            
+            padding: 25px 10px; /* Jarak atas bawah lebih luas */
+            margin-bottom: 0;
+            text-align: center; /* Susun tulisan di tengah (Center) */
+            
+            animation: fadeIn 0.8s ease-in;
         }
         
-        .wisher-name {
-            font-family: 'Cinzel', serif;
-            font-weight: bold;
-            color: var(--primary-color);
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-            display: block;
+        /* Buang garis untuk ucapan terakhir supaya nampak kemas */
+        .wish-card:last-child {
+            border-bottom: none;
         }
         
         .wisher-message {
+            /* KEKAL: Font family, style & size asal */
             font-family: 'Lato', sans-serif;
-            font-size: 0.95rem;
-            color: #555;
-            line-height: 1.4;
             font-style: italic;
+            font-size: 1.1rem; 
+            
+            /* UBAH: Ikut Gambar (Hitam & Normal) */
+            color: #000000;      /* Hitam Pekat */
+            font-weight: 400;    /* Normal (Tak Bold) supaya nampak lembut macam dalam gambar */
+            
+            line-height: 1.4;
+            display: block;
+            
+            /* KEKAL: Bayang putih (PENTING untuk background bunga hitam putih) */
+            /* Tanpa ini, tulisan hitam akan hilang di atas daun gelap */
+            text-shadow: 
+                1px 1px 0 #fff, 
+                -1px -1px 0 #fff, 
+                1px -1px 0 #fff, 
+                -1px 1px 0 #fff,
+                0 0 10px rgba(255,255,255,0.8);
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+    
+       .wisher-name {
+            /* KEKAL: Font family & size asal */
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            
+            /* WARNA: Menggunakan warna tema (Coklat Gelap) */
+            color: var(--primary-color); 
+    
+            /* KETEBALAN: Kekal Bold (700) supaya nampak tegas */
+            font-weight: 700;    
+            
+            /* KEKAL: Bayang putih/Stroke */
+            /* Ini sangat PENTING supaya warna coklat tidak tenggelam pada background hitam/putih */
+            text-shadow: 
+                2px 2px 0 #fff, 
+                -1px -1px 0 #fff, 
+                1px -1px 0 #fff, 
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff;
+                
+            position: relative; 
+            z-index: 2;
         }
    
         /* =========================================
