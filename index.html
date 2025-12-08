@@ -112,53 +112,125 @@
            ========================================= */
         #cover {
             position: fixed;
-            top: 0;
-            
-            /* Trik Centerkan Fixed Element */
-            left: 50%;
-            transform: translateX(-50%); 
-            
-            width: 100%;
-            max-width: 450px; /* MESTI SAMA dengan container */
-            height: 100%;
-            
-            background: rgba(0, 0, 0, 0.4); /* Gelap sikit untuk nampak teks putih */
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: 9999;
+            
+            /* 1. Gabungkan Warna Gelap + Gambar Bunga Hitam Putih */
+            /* Tukar 'image/bg-cover.jpg' dengan nama fail gambar bunga anda */
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), 
+                url('image/bg-cover.jpg'); 
+                
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             color: white;
-            transition: transform 1s ease-in-out;
-            backdrop-filter: blur(3px);
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
         }
     
         #cover.open {
-            transform: translate(-50%, -100%); /* Naik atas sambil kekal tengah */
+            transform: translateY(-100%); /* Efek langsir naik atas */
+        }
+    
+        /* Kotak hiasan di tengah (Frame) */
+        .cover-content {
+            width: 85%;
+            max-width: 400px;
+            padding: 40px 20px;
+            
+            /* Bingkai Emas Nipis & Efek Kaca */
+            border: 1px solid rgba(212, 175, 55, 0.5); 
+            background: rgba(255, 255, 255, 0.05); /* Sangat transparent */
+            backdrop-filter: blur(3px); /* Kabur sikit background belakang tulisan */
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            
+            animation: fadeInZoom 1.5s ease-out;
+        }
+    
+        .cover-content p.intro {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #ddd;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.5);
+            display: inline-block;
+            padding-bottom: 5px;
         }
     
         .cover-content h1 {
             font-family: 'Great Vibes', cursive;
-            font-size: 3.5rem;
-            margin: 0;
-            color: var(--accent-color);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 3.8rem;
+            margin: 10px 0;
+            
+            /* Warna Emas Gradient pada Teks */
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+            line-height: 1.2;
         }
     
+        .cover-content p.date {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: #fff;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+    
+        /* Butang Buka Jemputan Yang Baru */
         .btn-open {
-            margin-top: 30px;
-            padding: 12px 30px;
-            background: var(--accent-color);
-            color: var(--primary-color);
-            border: none;
+            margin-top: 40px;
+            padding: 15px 40px;
+            background: transparent;
+            color: var(--accent-color); /* Warna Emas */
+            border: 1px solid var(--accent-color);
             border-radius: 50px;
-            font-size: 1.2rem;
+            font-size: 1rem;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-            animation: pulse 2s infinite;
             font-family: 'Cinzel', serif;
             font-weight: bold;
+            letter-spacing: 2px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+    
+        /* Efek Hover Butang - Jadi Emas Penuh */
+        .btn-open::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 0%; height: 100%;
+            background: var(--accent-color);
+            z-index: -1;
+            transition: width 0.4s ease;
+        }
+    
+        .btn-open:hover::before {
+            width: 100%;
+        }
+    
+        .btn-open:hover {
+            color: var(--primary-color); /* Tukar jadi coklat bila hover */
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        /* Animasi Masuk */
+        @keyframes fadeInZoom {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
     
         /* =========================================
@@ -602,10 +674,11 @@
     
     <div id="cover">
         <div class="cover-content">
-            <p style="letter-spacing: 3px; text-transform: uppercase;">Undangan Majlis Perkahwinan</p>
-            <h1>fahmie & thaqirah</h1>
+            <p class="intro">Walimatulurus</p>
             
-            <p>30 Mei 2026</p>
+            <h1>fahmie <br>&<br> thaqirah</h1>
+            
+            <p class="date">30 . 05 . 2026</p>
             
             <button class="btn-open" onclick="openInvitation()">Buka Jemputan</button>
         </div>
