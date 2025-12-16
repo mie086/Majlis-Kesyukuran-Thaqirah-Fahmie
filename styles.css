@@ -1,0 +1,666 @@
+        /* =========================================
+           1. GLOBAL SETTINGS & VARIABLES
+           ========================================= */
+        :root {
+            --primary-color: #5D4037; /* Coklat Kayu Gelap */
+            --accent-color: #D4AF37; /* Emas */
+            --bg-color: #FDFBF7;     /* Krim Putih */
+            --text-color: #3E2723;
+        }
+    
+        * {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+    
+        /* =========================================
+           2. BODY (LATAR BELAKANG SKRIN PC)
+           ========================================= */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Lato', sans-serif;
+            
+            /* Warna kelabu cair untuk nampak beza dengan kad jemputan */
+            background-color: #e0e0e0; 
+            
+            min-height: 100vh;
+            display: flex;
+            justify-content: center; /* Pastikan 'Phone' duduk tengah */
+            padding-bottom: 70px;    /* Ruang untuk menu bawah */
+        }
+    
+        /* =========================================
+           3. CONTAINER (BENTUK TELEFON)
+           ========================================= */
+        .container {
+                width: 100%;
+                max-width: 450px; /* LEBAR STANDARD PHONE */
+                min-height: 100vh;
+                margin: 0 auto;
+                
+                /* Gambar Background Utama */
+                background-image: url('image/bg-wedding.png');
+                background-size: contain;         /* Pastikan gambar ikut format asal */
+                background-repeat: no-repeat;     /* Elak gambar berulang */
+                background-position: center top;  /* Kedudukan gambar */
+                background-attachment: fixed;     /* Efek parallax */
+                
+                position: relative;
+                box-shadow: 0 0 30px rgba(0,0,0,0.2); /* Bayang timbul */
+                overflow: hidden;
+                z-index: 10;
+            }
+    
+        /* =========================================
+           4. SECTIONS (KONTEN)
+           ========================================= */
+        section {
+            /* Latar putih nipis supaya tulisan jelas dibaca atas gambar */
+            background: rgba(255, 255, 255, 0.90); 
+            margin: 15px;       /* Jarak sikit dari tepi skrin */
+            border-radius: 15px; /* Bucu lembut */
+            padding: 50px 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+    
+        /* Motif Bunga Halus dalam Section */
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(#d4af37 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.1;
+            pointer-events: none;
+            border-radius: 15px;
+        }
+    
+        h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+    
+        h2::after {
+            content: '❧';
+            display: block;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-top: 5px;
+        }
+    
+        /* =========================================
+           5. COVER / PINTU GERBANG (FIXED)
+           ========================================= */
+        #cover {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 9999;
+            
+            /* 1. Gabungkan Warna Gelap + Gambar Bunga Hitam Putih */
+            /* Tukar 'image/bg-cover.jpg' dengan nama fail gambar bunga anda */
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), 
+                url('image/bg-cover.jpg'); 
+                
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+    
+        #cover.open {
+            transform: translateY(-100%); /* Efek langsir naik atas */
+        }
+    
+        /* Kotak hiasan di tengah (Frame) */
+        .cover-content {
+            width: 85%;
+            max-width: 400px;
+            padding: 40px 20px;
+            
+            /* Bingkai Emas Nipis & Efek Kaca */
+            border: 1px solid rgba(212, 175, 55, 0.5); 
+            background: rgba(255, 255, 255, 0.05); /* Sangat transparent */
+            backdrop-filter: blur(3px); /* Kabur sikit background belakang tulisan */
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            
+            animation: fadeInZoom 1.5s ease-out;
+        }
+    
+        .cover-content p.intro {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #ddd;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.5);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+    
+        .cover-content h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.8rem;
+            margin: 10px 0;
+            
+            /* Warna Emas Gradient pada Teks */
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+            line-height: 1.2;
+        }
+    
+        .cover-content p.date {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: #fff;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+    
+        /* Butang Buka Jemputan Yang Baru */
+        .btn-open {
+            margin-top: 40px;
+            padding: 15px 40px;
+            background: transparent;
+            color: var(--accent-color); /* Warna Emas */
+            border: 1px solid var(--accent-color);
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+    
+        /* Efek Hover Butang - Jadi Emas Penuh */
+        .btn-open::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 0%; height: 100%;
+            background: var(--accent-color);
+            z-index: -1;
+            transition: width 0.4s ease;
+        }
+    
+        .btn-open:hover::before {
+            width: 100%;
+        }
+    
+        .btn-open:hover {
+            color: var(--primary-color); /* Tukar jadi coklat bila hover */
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        /* Animasi Masuk */
+        @keyframes fadeInZoom {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    
+        /* =========================================
+           6. TYPOGRAPHY & COMPONENTS
+           ========================================= */
+        .bismillah-rumi {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+    
+        .couple-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            color: var(--primary-color);
+            margin: 15px 0;
+            line-height: 1.2;
+        }
+    
+        /* COUNTDOWN */
+        .countdown {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin: 20px auto;
+            width: 100%;
+        }
+        
+        .time-box {
+            background: transparent;
+            color: var(--primary-color);
+            text-align: center;
+            min-width: 60px;
+            flex: 1;
+            position: relative;
+        }
+        
+        .time-box:not(:last-child)::after {
+            content: ":";
+            position: absolute;
+            right: -8px;
+            top: 5px;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+        
+        .time-val {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            display: block;
+            line-height: 1;
+        }
+        
+        .time-label {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+    
+        /* =========================================
+           RSVP FORM (GLASSMORPHISM / TRANSPARENT)
+           ========================================= */
+        .rsvp-card {
+            /* Latar putih tetapi 20% sahaja (sangat transparent) */
+            background: rgba(255, 255, 255, 0.2);
+            
+            padding: 20px;
+            border-radius: 15px;
+            
+            /* Bingkai putih nipis untuk nampak bentuk kotak */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            
+            /* Efek kabur di belakang kotak (PENTING untuk readability) */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* Untuk pengguna iPhone/Safari */
+            
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Bayang lembut */
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            
+            /* Input field sedikit lebih terang dari background card */
+            background: rgba(255, 255, 255, 0.4); 
+            
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 8px;
+            font-family: inherit;
+            color: var(--primary-color); /* Pastikan tulisan warna gelap/coklat */
+            transition: all 0.3s ease;
+        }
+        
+        /* Warna placeholder (teks 'Nama Tetamu' dsb) */
+        ::placeholder {
+            color: #4a4a4a; /* Kelabu gelap supaya nampak atas background cerah */
+            opacity: 0.7;
+        }
+        
+        /* Bila pengguna tekan kotak untuk menaip */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.8); /* Jadi lebih putih bila menaip */
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+    
+        button.submit {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        button.submit:hover { background: var(--accent-color); color: var(--primary-color); }
+    
+        /* =========================================
+           7. BOTTOM NAVIGATION (GLASS STYLE)
+           ========================================= */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+        
+            left: 50%;
+            transform: translateX(-50%);
+        
+            width: 100%;
+            max-width: 450px; 
+        
+            /* Gantikan yang asal: background-color: #ffffff; */
+            background-color: rgba(253, 251, 247, 0.7); /* hampir sama dengan bg-color tapi transparent */
+        
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 3000;
+            border-radius: 15px 15px 0 0;
+            border-top: 2px solid var(--accent-color);
+        }
+    
+        .nav-item {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            flex-grow: 1;
+        }
+    
+        .nav-item span {
+            font-size: 0.6rem;
+            margin-top: 4px;
+            font-family: 'Lato', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    
+        .nav-item:hover, .nav-item:active {
+            color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+    
+        /* =========================================
+           8. MODAL & OVERLAY (FIXED)
+           ========================================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); /* Latar gelap PC */
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: flex-end; /* Muncul dari bawah */
+        }
+    
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+    
+        .modal-card {
+            width: 100%;
+            max-width: 450px; /* Ikut saiz phone */
+            background: white;
+            padding: 30px 25px 90px 25px; /* Padding bawah lebih untuk elak menu */
+            border-radius: 25px 25px 0 0;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            text-align: center;
+            margin: 0 auto; /* Centerkan kalau screen besar */
+        }
+    
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+        }
+    
+        .modal-title {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #000;
+        }
+    
+        .close-bar {
+            width: 40px; height: 5px;
+            background: #ddd;
+            border-radius: 5px;
+            margin: -10px auto 20px auto;
+            cursor: pointer;
+        }
+    
+        /* Butang App dalam Modal */
+        .btn-group-app {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        /* 1. DEFAULT: Butang Putih Pekat (Untuk Modal Pop-up) */
+        .btn-app {
+            flex: 1;
+            padding: 12px;
+            background: white;       /* Putih Pekat */
+            border: 1px solid #333;  /* Bingkai Hitam */
+            border-radius: 12px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        /* 2. KHAS: Butang Transparent (HANYA untuk section Lokasi Inline) */
+        #lokasi-inline .btn-app {
+            background: rgba(255, 255, 255, 0.3) !important; /* Jadi lutsinar */
+            backdrop-filter: blur(5px); /* Efek kaca */
+            border: 1px solid #333;
+        }
+
+        /* Efek bila tekan */
+        .btn-app:active {
+            transform: scale(0.95);
+            background-color: #f0f0f0; /* Kelabu sikit bila tekan */
+        }
+    
+        /* List Hubungi */
+        .contact-list { list-style: none; padding: 0; margin: 0; text-align: left; }
+        .contact-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .contact-name { font-size: 0.9rem; color: #333; }
+        .contact-actions a { font-size: 1.4rem; margin-left: 15px; color: #333; text-decoration: none; }
+    
+        /* =========================================
+           9. MUSIC ICON (FIXED & RESTORED)
+           ========================================= */
+        #musicIcon {
+            position: fixed;
+            top: 20px;
+            
+            /* LOGIK CENTER: 50% Skrin + Separuh Lebar Phone (225px) - Margin Tepi (20px + saiz butang) */
+            /* Kita adjust margin-left: 170px supaya dia duduk dalam 'phone' */
+            left: 50%;
+            margin-left: 170px; 
+            
+            width: 45px; height: 45px;
+            background: white;              /* Latar putih */
+            border: 2px solid var(--accent-color); /* Bingkai emas */
+            border-radius: 50%;             /* Bulat */
+            
+            display: flex;                  
+            justify-content: center;
+            align-items: center;
+            
+            color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            font-size: 1.2rem;
+            z-index: 9998;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+    
+        /* Animasi Berpusing */
+        .spin { animation: pusing 4s linear infinite; }
+        @keyframes pusing { 100% { transform: rotate(360deg); } }
+    
+        /* =========================================
+           10. ANIMASI LAIN
+           ========================================= */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    
+        /* RESPONSIVE KECIL */
+        @media (max-width: 400px) {
+            .cover-content h1 { font-size: 2.8rem; }
+            .couple-names { font-size: 2rem; }
+            #musicIcon { margin-left: 130px; } /* Adjust ikon muzik untuk skrin sempit */
+        }
+   
+        /* =========================================
+           11. Ucapan
+           ========================================= */
+        .wish-container {
+            height: 400px; /* Kita tinggikan sikit supaya nampak luas */
+            overflow-y: auto; 
+            
+            /* PENTING: Kita buang latar belakang kotak besar */
+            background: transparent; 
+            border: none; /* Buang bingkai emas kotak besar */
+            padding: 10px;
+            
+            /* Scrollbar styles (Biar nampak halus) */
+            scrollbar-width: thin; 
+            scrollbar-color: var(--accent-color) transparent;
+        }
+        
+        /* Scrollbar untuk Chrome/Safari */
+        .wish-container::-webkit-scrollbar { width: 4px; }
+        .wish-container::-webkit-scrollbar-thumb { background-color: var(--accent-color); border-radius: 10px; }
+        
+        /* KAD MESEJ (DITUKAR JADI TRANSPARENT) */
+        .wish-card {
+            /* Buang warna putih background & bayang */
+            background: transparent; 
+            box-shadow: none;
+            border-left: none; /* Buang garis tepi tebal */
+            
+            /* Tambah garis putus-putus halus di bawah sebagai pemisah */
+            border-bottom: 1px dashed rgba(62, 39, 35, 0.2); 
+            
+            padding: 25px 10px; /* Jarak atas bawah lebih luas */
+            margin-bottom: 0;
+            text-align: center; /* Susun tulisan di tengah (Center) */
+            
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        /* Buang garis untuk ucapan terakhir supaya nampak kemas */
+        .wish-card:last-child {
+            border-bottom: none;
+        }
+        
+        .wisher-name {
+            font-family: 'Cinzel', serif; /* Font nampak klasik sikit */
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-top: 15px; /* Nama duduk di bawah ucapan (ikut trend moden) atau atas pun boleh */
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .wisher-message {
+            font-family: 'Lato', sans-serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: #444;
+            
+            /* Tambah 'bayang putih' pada tulisan supaya mudah baca jika background ada bunga */
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.8); 
+        }
+   
+        /* =========================================
+           11. Ucapan
+           ========================================= */
+        /* Container untuk butang pilihan */
+        .rsvp-btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Gaya Butang Pilihan */
+        .btn-menu-rsvp {
+            flex: 1; /* Sama lebar */
+            padding: 20px 10px;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            line-height: 1.4;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        /* Efek tekan */
+        .btn-menu-rsvp:active {
+            transform: scale(0.95);
+        }
+        
+        /* Warna Butang 1 (Utama - Emas/Coklat) */
+        .btn-menu-rsvp.main {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: 1px solid var(--primary-color);
+        }
+        
+        /* Warna Butang 2 (Sekunder - Putih) */
+        .btn-menu-rsvp.secondary {
+            background-color: #fff;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
