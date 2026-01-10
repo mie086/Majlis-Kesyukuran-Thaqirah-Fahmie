@@ -416,22 +416,25 @@
         });
 
         function mulaGerakPerlahan() {
-            // 1. Matikan dulu interval lama (jika ada) supaya tak bertindih
+            if (document.querySelector('.modal-overlay.active')) {
+                console.log("Modal sedang dibuka. Auto-scroll dibatalkan.");
+                return; // BERHENTI DI SINI. Jangan jalankan kod di bawah.
+            }
+            // -----------------------------------
+        
+            // 1. Matikan dulu interval lama (Reset)
             clearInterval(scrollInterval);
         
             // 2. Mula skrol
-            // Kelajuan: 40ms (Ubah nombor ini: 30=Laju, 60=Perlahan)
             scrollInterval = setInterval(function() {
                 
-                // Gerak 1 pixel ke bawah
                 window.scrollBy(0, 1);
         
-                // Cek: Jika dah sampai ke Hujung Bawah (Footer)
+                // Cek: Jika dah sampai ke Hujung Bawah
                 if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                    // Matikan semua sistem sebab dah habis baca
                     clearInterval(scrollInterval);
                     clearTimeout(resumeTimeout);
-                    buangEventListeners(); // Bersihkan memori
+                    buangEventListeners(); 
                 }
         
             }, 40); 
