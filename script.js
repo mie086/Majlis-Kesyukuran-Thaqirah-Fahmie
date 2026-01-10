@@ -4,26 +4,31 @@
         var audio = document.getElementById("laguTema");
         var musicBtn = document.getElementById("musicIcon");
         var isPlaying = false;
+        var scrollInterval; // Untuk kawal auto-scroll
+        var scrollInterval;  // Untuk kawal pergerakan
+        var resumeTimeout;   // Untuk kawal masa menunggu (delay)
 
         function openInvitation() {
             var cover = document.getElementById('cover');
             cover.classList.add('open');
             
-            // Mainkan Lagu
+            // 1. Mainkan Lagu
             if (audio) {
                 audio.play().catch(function(error) {
                     console.log("Autoplay blocked:", error);
                 });
                 isPlaying = true;
             }
-
-            // Tunjuk Butang Muzik
+        
+            // 2. Tunjuk Butang Muzik
             if (musicBtn) {
                 musicBtn.style.display = "flex";
                 musicBtn.classList.add("spin");
             }
             
             initAnimations();
+        
+            setTimeout(mulaGerakPerlahan, 3000);
         }
 
         function toggleMusic() {
@@ -342,3 +347,88 @@
             // Jika anda ada borang lain (contoh: dalam modal), tambah ID di sini:
             // aktifkanLogikKehadiran('rsvpForm'); 
         });
+
+        // ==========================================
+        // FUNGSI GERAK PERLAHAN (AUTO SCROLL)
+        // ==========================================
+        function mulaGerakPerlahan() {
+            const kelajuan = 40; 
+        
+            scrollInterval = setInterval(function() {
+                window.scrollBy(0, 1);
+        
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                    clearInterval(scrollInterval);
+                }
+            }, kelajuan);
+        }
+        
+        window.addEventListener('touchstart', function() {
+            clearInterval(scrollInterval);
+        });
+        
+        window.addEventListener('wheel', function() {
+            clearInterval(scrollInterval);
+        });
+        
+        window.addEventListener('click', function() {
+            clearInterval(scrollInterval);
+        });
+
+        function mulaGerakPerlahan() {
+            // 1. Matikan dulu interval lama (jika ada) supaya tak bertindih
+            clearInterval(scrollInterval);
+        
+            // 2. Mula skrol
+            // Kelajuan: 40ms (Ubah nombor ini: 30=Laju, 60=Perlahan)
+            scrollInterval = setInterval(function() {
+                
+                // Gerak 1 pixel ke bawah
+                window.scrollBy(0, 1);
+        
+                // Cek: Jika dah sampai ke Hujung Bawah (Footer)
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                    // Matikan semua sistem sebab dah habis baca
+                    clearInterval(scrollInterval);
+                    clearTimeout(resumeTimeout);
+                    buangEventListeners(); // Bersihkan memori
+                }
+        
+            }, 40); 
+        }
+        
+        function hentiDanSambung() {
+            // 1. Hentikan pergerakan serta-merta bila user sentuh
+            clearInterval(scrollInterval);
+        
+            // 2. Reset timer "menunggu" yang lama (supaya tak keliru)
+            clearTimeout(resumeTimeout);
+        
+            // 3. Set timer baru:
+            // "Kalau user diam selama 3 saat, jalan balik."
+            resumeTimeout = setTimeout(function() {
+                console.log("User senyap (idle). Sambung auto-scroll...");
+                mulaGerakPerlahan();
+            }, 3000); // 3000ms = 3 saat delay
+        }
+        
+        function pasangAutoScrollListeners() {
+            // Bila jari sentuh skrin (Phone)
+            window.addEventListener('touchstart', hentiDanSambung);
+            // Bila jari bergerak atas skrin (Phone)
+            window.addEventListener('touchmove', hentiDanSambung);
+            // Bila guna mouse wheel (PC)
+            window.addEventListener('wheel', hentiDanSambung);
+            // Bila klik mana-mana (PC/Phone)
+            window.addEventListener('click', hentiDanSambung);
+        }
+        
+        function buangEventListeners() {
+            window.removeEventListener('touchstart', hentiDanSambung);
+            window.removeEventListener('touchmove', hentiDanSambung);
+            window.removeEventListener('wheel', hentiDanSambung);
+            window.removeEventListener('click', hentiDanSambung);
+        }
+        
+        // Panggil fungsi ini sekali sahaja supaya ia bersedia
+        pasangAutoScrollListeners();
