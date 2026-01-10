@@ -49,7 +49,12 @@
         // 2. FUNGSI POP-UP MODAL (FINAL FIX)
         // ==========================================
         function openModal(modalID) {
-            // Tutup semua modal LAIN (kecuali yang kita nak buka)
+            // A. MATIKAN AUTO-SCROLL SERTA-MERTA
+            // Supaya background tak bergerak bila user tengah tengok Modal
+            clearInterval(scrollInterval);
+            clearTimeout(resumeTimeout);
+        
+            // B. LOGIK ASAL (Tutup modal lain & Buka modal baru)
             document.querySelectorAll('.modal-overlay').forEach(el => {
                 if (el.id !== modalID) { 
                     el.classList.remove('active');
@@ -60,8 +65,7 @@
                     }, 300);
                 }
             });
-
-            // Buka modal sasaran
+        
             const modal = document.getElementById(modalID);
             if (modal) {
                 modal.style.display = 'flex';
@@ -78,6 +82,23 @@
                 setTimeout(() => {
                     modal.style.display = 'none';
                 }, 300);
+            }
+        
+            // C. LOGIK BARU: SAMBUNG SCROLL (KHAS UNTUK PETA)
+            // Jika modal yang ditutup adalah 'modalGambarPeta'
+            if (modalID === 'modalGambarPeta') {
+                console.log("Peta ditutup. Auto-scroll akan bersambung dalam 3 saat...");
+                
+                // Tunggu 3 saat, kemudian panggil semula fungsi gerak
+                setTimeout(function() {
+                    // Cek keselamatan: Pastikan tiada modal lain terbuka
+                    // (Takut user tutup peta, terus buka RSVP dalam masa 3 saat tu)
+                    const isAnyModalOpen = document.querySelector('.modal-overlay.active');
+                    
+                    if (!isAnyModalOpen) {
+                        mulaGerakPerlahan();
+                    }
+                }, 3000);
             }
         }
 
