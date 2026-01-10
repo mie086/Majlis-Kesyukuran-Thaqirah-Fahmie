@@ -664,3 +664,27 @@
             color: var(--primary-color);
             border: 1px solid var(--primary-color);
         }
+
+/* =========================================
+       STYLE TAMBAHAN: NAMA TUAN RUMAH
+       ========================================= */
+    .host-intro {
+        font-family: 'Lato', sans-serif;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-top: 15px;
+        color: #666; /* Warna kelabu lembut */
+    }
+
+    .nama-tuan-rumah {
+        font-family: 'Great Vibes', cursive; /* Menggunakan font sama dengan nama pengantin */
+        font-size: 2.0rem; /* Saiz besar sedikit supaya jelas */
+        color: var(--primary-color); /* Warna Coklat Kayu Gelap */
+        margin: 5px 0 15px 0;
+        line-height: 1.2;
+        font-weight: normal;
+    }
+
+    /* Pilihan Alternatif: Jika mahu font tegak/formal (Cinzel), 
+       boleh tukar font-family di atas kepada 'Cinzel', serif; */
