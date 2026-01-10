@@ -268,17 +268,36 @@
         // 6. FUNGSI BUTANG HOME (RUMAH)
         // ==========================================
         function keRumah() {
-            // 1. Tutup semua modal/pop-up jika ada yang terbuka
+            // 1. Matikan sebarang scroll/timer yang sedang berjalan (Reset)
+            clearInterval(scrollInterval);
+            clearTimeout(resumeTimeout);
+        
+            // 2. Tutup semua modal/pop-up
             document.querySelectorAll('.modal-overlay').forEach(el => {
                 el.classList.remove('active');
                 setTimeout(() => { el.style.display = 'none'; }, 300);
             });
-
-            // 2. Skrol ke paling atas dengan lembut
+        
+            // 3. Skrol ke paling atas dengan lembut
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
+        
+            console.log("Pulang ke rumah...");
+        
+            // 4. MULA AUTO-SCROLL SELEPAS 3 SAAT
+            // Kita guna setTimeout baru khas untuk fungsi ini
+            setTimeout(function() {
+                
+                // Periksa adakah pengguna masih di bahagian atas?
+                // (Elak skrol kalau user dah scroll manual ke bawah dalam masa 3 saat tu)
+                if (window.scrollY < 200) { 
+                    console.log("Memulakan semula auto-scroll...");
+                    mulaGerakPerlahan();
+                }
+                
+            }, 3000); 
         }
 
         // ==========================================
@@ -432,3 +451,40 @@
         
         // Panggil fungsi ini sekali sahaja supaya ia bersedia
         pasangAutoScrollListeners();
+
+        // ==========================================
+        // FUNGSI KHAS: STOP KEKAL (NAVBAR & RSVP)
+        // ==========================================
+        // Kita senaraikan elemen yang "Wajib Berhenti" bila disentuh
+        const zonLaranganGerak = [
+            document.querySelector('.bottom-nav'),  // Menu Bawah
+            document.getElementById('rsvp-inline')  // Borang RSVP (Baru tambah)
+        ];
+        
+        const matikanScrollSepenuhnya = function(e) {
+            // 1. PENTING: Halang event ini daripada dikesan oleh Window.
+            // Ini bermaksud fungsi 'Smart Resume' (sambung balik) TIDAK akan dipanggil.
+            e.stopPropagation(); 
+        
+            // 2. Matikan pergerakan skrin serta-merta
+            clearInterval(scrollInterval);
+        
+            // 3. Batalkan sebarang timer "tunggu 3 saat" yang sedang berjalan
+            clearTimeout(resumeTimeout);
+        
+            console.log("Zon sensitif disentuh. Auto-scroll dimatikan sepenuhnya.");
+        };
+        
+        // Pasang 'trap' pada setiap elemen dalam senarai
+        zonLaranganGerak.forEach(elemen => {
+            if (elemen) {
+                // Matikan bila klik (PC)
+                elemen.addEventListener('click', matikanScrollSepenuhnya);
+                
+                // Matikan bila sentuh (Phone)
+                elemen.addEventListener('touchstart', matikanScrollSepenuhnya);
+                
+                // Matikan bila mula menaip dalam borang (Focus)
+                elemen.addEventListener('focusin', matikanScrollSepenuhnya);
+            }
+        });
